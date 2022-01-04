@@ -1,4 +1,3 @@
-
 """
 ===============================================
 GSP (Generalized Sequential Pattern) algorithm
@@ -127,18 +126,19 @@ class GSP:
             self._print_status(k_items, candidates)
         return self.freq_patterns[:-1]
 
+
 class gsptest(TestCase):
-    def gsp_algorithm(self):
-        consumer_key = '00uoWhWMhHFv3VvLmRS92wGss'
-        consumer_secret = 'rSsAQhOO2SZ6QNDXS1D6gIkrzuAD4OJ545xnqDlnM6KhVIR7Uj'
-        access_token = '1477363091646132228-f3eIclo5ERWkZ0hC7ldO5ISncMmMBR'
-        access_token_secret = 'rqvmXTHyQHLprD17WzUDIHjTbQrWVuDV8d73JnY4xJUVg'
+    def test_gspalgorithm(self):
+        consumer_key = 'hgrthgy2374RTYFTY'
+        consumer_secret = 'hGDR2Gyr6534tjkht'
+        access_token = 'HYTHTYH65TYhtfhfgkt34'
+        access_token_secret = 'ged5654tHFG'
         # authenticate
         auth = tw.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)
         api = tw.API(auth, wait_on_rate_limit=True)
 
-        search_query = "#RealMadridFutbolClub -filter:retweets"
+        search_query = "#RealMadridFutbolClub"
 
         # get tweets from the API
         tweets = tw.Cursor(api.search_tweets, q=search_query, lang="es").items(5000)
@@ -150,7 +150,7 @@ class gsptest(TestCase):
 
         print("Total Tweets fetched:", len(tweets_copy))
         transactions = [
-            ['Bread', 'Milk'],
+            ['Bread,Milk'],
             ['Bread', 'Diaper', 'Beer', 'Eggs'],
             ['Milk', 'Diaper', 'Beer', 'Coke'],
             ['Bread', 'Milk', 'Diaper', 'Beer'],

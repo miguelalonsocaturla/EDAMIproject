@@ -1,24 +1,24 @@
 
 import tweepy as tw
 # your Twitter API key and API secret
-
-consumer_key = '00uoWhWMhHFv3VvLmRS92wGss'
-consumer_secret = 'rSsAQhOO2SZ6QNDXS1D6gIkrzuAD4OJ545xnqDlnM6KhVIR7Uj'
-access_token = '1477363091646132228-f3eIclo5ERWkZ0hC7ldO5ISncMmMBR'
-access_token_secret = 'rqvmXTHyQHLprD17WzUDIHjTbQrWVuDV8d73JnY4xJUVg'
+consumer_key = 'datBeJPQCuKdWhHTP5ra52Ml6'
+consumer_secret = 'BcSS4Bq6FotENZdytJhMpYVl89GFxkn1oCLSjxGK44jEUOzh0e'
+access_token = 'HYTHTYH65TYhtfhfgkt34'
+access_token_secret = 'ged5654tHFG'
 # authenticate
 auth = tw.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tw.API(auth, wait_on_rate_limit=True)
+#auth.set_access_token(access_token, access_token_secret)
+api = tw.API(auth)
 
-search_query = "#RealMadridFutbolClub -filter:retweets"
+search_query = "#RealMadrid -filter:retweets"
 
 # get tweets from the API
-tweets = tw.Cursor(api.search_tweets, q=search_query, lang="es").items(5000)
+#tweets = tw.Cursor(api.search_tweets, q=search_query, lang="es").items(5000)
+tweets = tw.Client.search_recent_tweets(search_query)
 # store the API responses in a list
 tweets_copy = []
 for tweet in tweets:
-    tweets_copy.append(api.get_status(id=tweet.id, tweet_mode='extended').full_text)
+    tweets_copy.append(tweet)
 
 print("Total Tweets fetched:", len(tweets_copy))
 
