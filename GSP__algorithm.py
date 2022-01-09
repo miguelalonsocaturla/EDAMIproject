@@ -147,7 +147,6 @@ class gsptest(TestCase):
         for tweet in tweets:
             text = api.get_status(id=tweet.id, tweet_mode='extended').full_text
             tweets_copy.append(text)
-
         print("Total Tweets fetched:", len(tweets_copy))
         transactions = [
             ['Bread,Milk'],

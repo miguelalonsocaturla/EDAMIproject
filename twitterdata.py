@@ -1,37 +1,34 @@
-import tweepy as tw
+from unittest import TestCase
 
-# your Twitter API key and API secret
+import requests
+import json
+import re
+# its bad practice to place your bearer token directly into the script (this is just done for illustration purposes)
+BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAANK6XwEAAAAA6kIAE1i8YVzGmltmuaaHdMUgg9c%3D77qJcNxLM88NAchFp6y2XqDVpzo7xorUyHA2KQBXqHjmWJrlge"
 
 
-consumer_key = 'ACP1iINuWfwzIomeO8kM9ykRw'
-consumer_secret = 'gjrB7khX8oQSADDNGQazxTOfIb10IKrIVJcn5jXAgs0cg6TBZt'
+def search_twitter(query, max_results, tweet_fields, bearer_token=BEARER_TOKEN):
+    headers = {"Authorization": "Bearer {}".format(bearer_token)}
 
-# authenticate
+    url = "https://api.twitter.com/2/tweets/search/recent?query=%23RealMadrid&max_results=10&tweet.fields=text"
+    response = requests.request("GET", url, headers=headers)
+    print(response.status_code)
+    if response.status_code != 200:
+        raise Exception(response.status_code, response.text)
+    return response.json()
 
-client = tw.Client(
-    bearer_token="AAAAAAAAAAAAAAAAAAAAADiZXwEAAAAAZAjLMFds6BXXIAdwT7X0KbXCgdA%3DbwQ1Ch2YpilmLE5hbAcOQcvyF6QKiG1uVXjVLIoiGAuxt4VoCS")
 
-# Replace with your own search query
-# replace place_country with the code of your country of interest or remove.
-query = '#RealMadrid'
+class testtwitter(TestCase):
+    # search term
+    query = "%23RealMadrid"
+    # twitter fields to be returned by api call
+    tweet_fields = "tweet.fields=text"
+    max_results = 10
+    # twitter api call
+    json_response = search_twitter(query=query, max_results=max_results, tweet_fields=tweet_fields, bearer_token=BEARER_TOKEN)
+    # pretty printing
+    print(json.dumps(json_response).)
 
-# Starting time period YYYY-MM-DDTHH:MM:SSZ (max period back is March 2006)
-start_time = '2018-01-01T00:00:00Z'
 
-# Ending time period YYYY-MM-DDTHH:MM:SSZ
-end_time = '2018-08-03T00:00:00Z'
+    #re.findall(r'\B#\w*[a-zA-Z]+\w*', json.dumps(json_response, indent=4, sort_keys=True))
 
-# I'm getting the geo location of the tweet as well as the location of the user and setting the number of tweets
-# returned to 10 (minimum) - Max is 100
-
-tweets = client.search_recent_tweets(query=query, max_results=10)
-
-# Get list of places and users
-hashtags = {p["id"]: p for p in tweets.includes['hashtags']}
-
-tweets_copy = []
-# loop through the tweets to get the tweet ID, Date, Text, Author ID, User Location and Tweet Location
-for tweet in tweets.data:
-    tweets_copy.append(tweet)
-
-print("Total Tweets fetched:", len(tweets_copy))
