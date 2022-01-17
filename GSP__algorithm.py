@@ -15,7 +15,6 @@ transactions = [
                 ['Bread', 'Milk', 'Diaper', 'Coke']
             ]
 """
-import tweepy as tw
 import logging
 from unittest import TestCase
 from itertools import product
@@ -23,6 +22,7 @@ import multiprocessing as mp
 from collections import Counter
 from itertools import chain
 import numpy as np
+import twitterdata
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -85,7 +85,7 @@ class GSP:
                               len(candidates),
                               len(self.freq_patterns[run - 1])))
 
-    def search(self, minsup=0.2):
+    def search(self, minsup=0.5):
         """Run GSP mining algorithm
 
         Parameters
@@ -128,36 +128,10 @@ class GSP:
 
 
 class gsptest(TestCase):
-    def test_gspalgorithm(self):
-        consumer_key = 'hgrthgy2374RTYFTY'
-        consumer_secret = 'hGDR2Gyr6534tjkht'
-        access_token = 'HYTHTYH65TYhtfhfgkt34'
-        access_token_secret = 'ged5654tHFG'
-        # authenticate
-        auth = tw.OAuthHandler(consumer_key, consumer_secret)
-        auth.set_access_token(access_token, access_token_secret)
-        api = tw.API(auth, wait_on_rate_limit=True)
+    def test_gsp(self):
 
-        search_query = "#RealMadridFutbolClub"
-
-        # get tweets from the API
-        tweets = tw.Cursor(api.search_tweets, q=search_query, lang="es").items(5000)
-        # store the API responses in a list
-        tweets_copy = []
-        for tweet in tweets:
-            text = api.get_status(id=tweet.id, tweet_mode='extended').full_text
-            tweets_copy.append(text)
-        print("Total Tweets fetched:", len(tweets_copy))
-        transactions = [
-            ['Bread,Milk'],
-            ['Bread', 'Diaper', 'Beer', 'Eggs'],
-            ['Milk', 'Diaper', 'Beer', 'Coke'],
-            ['Bread', 'Milk', 'Diaper', 'Beer'],
-            ['Bread', 'Milk', 'Diaper', 'Coke']
-        ]
-
-        result = GSP(transactions).search(0.3)
-
+        transactio = twitterdata.testtwitter.list3
+        result = GSP(transactio).search(0.04)
         print("========= Status =========")
-        print("Transactions: {}".format(transactions))
+        print("Transactions: {}".format(transactio))
         print("GSP: {}".format(result))

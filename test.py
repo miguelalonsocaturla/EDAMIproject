@@ -67,7 +67,7 @@ class GSP:
                               len(candidates),
                               len(self.freq_patterns[run - 1])))
 
-    def search(self, minsup=0.2):
+    def search(self, minsup):
         """Run GSP mining algorithm
 
 
@@ -115,17 +115,58 @@ class GSP:
 
 class gsptest(TestCase):
     def test_supermarket(self):
-        transactions = [
-            ['El real Madrid gana la champions'.split()],
-            ['El real Madrid pierde la champions'.split()],
-            ['El real Madrid son malos'.split()]
-            # ['Bread', 'Diaper', 'Beer', 'Eggs'],
-            # ['Milk', 'Diaper', 'Beer', 'Coke'],
-            # ['Bread', 'Milk', 'Diaper', 'Beer'],
-            # ['Bread', 'Milk', 'Diaper', 'Coke']
-        ]
+        transactions = [['Bread', 'Milk'], ['Bread', 'Diaper', 'Beer', 'Eggs'], ['Milk', 'Diaper', 'Beer', 'Coke'],
+                        ['Bread', 'Milk', 'Diaper', 'Beer'], ['Bread', 'Milk', 'Diaper', 'Coke'],
+                        ['RMCF', 'RealMadrid'], ['RealMadrid'], ['RealMadrid'], ['RealMadrid', 'rmalive', 'HalaMadrid'],
+                        ['RealMadrid', 'HalaMadrid', 'Neymar'], ['Ajaxbet', 'Barcelona', 'RealMadrid'],
+                        ['RealMadrid', 'rmalive', 'HalaMadrid'], ['Futbol', 'RealMadrid'],
+                        ['ChampionsLeague', 'LigadosCampe', 'FutebolFeminino', 'FCBarcelona', 'RealMadrid', 'ElCl',
+                         'CampNou'], ['RealMadrid', 'SuperCopa'], ['Juventus', 'RealMadrid', 'Pogba', 'Psg'],
+                        ['RealMadrid'],
+                        ['realmadrid', 'madrid', 'halamadrid', 'halla_m2adrid', 'cristiano', 'benzema', 'zidane',
+                         'Ramos', 'explore'], ['RealMadrid', 'FCBarcelona', 'SupercopadeEspa'],
+                        ['Ajaxbet', 'Barcelona', 'RealMadrid'], ['Bar', 'RealMadrid', 'Sporting', 'CopaDelRey'],
+                        ['Camile', 'Mbapp', 'RealMadrid', 'PSG'],
+                        ['HalaMadrid', 'SuperCopa', 'RealFootball', 'RealMadrid', 'SoccerGirl', 'HalaMadridYNadaMas',
+                         'MadridistaHastaLaMuerte'], ['RealMadrid', 'MatchWorn', 'Ozil'],
+                        ['Supercopa', 'Barcelona', 'RealMadrid'], ['RealMadrid'],
+                        ['fcb', 'barcelona', 'xavi', 'koeman', 'madrid', 'realmadrid', 'pique'],
+                        ['fcb', 'barcelona', 'xavi', 'koeman', 'madrid', 'realmadrid', 'pique'],
+                        ['fcb', 'barcelona', 'xavi', 'koeman', 'madrid', 'realmadrid', 'pique'],
+                        ['RealMadrid', 'Haaland', 'mbappe', 'Vinicius'], ['HalaMadrid', 'RealMadrid', 'Sports'],
+                        ['RealMadrid', 'Valencia', 'ViniciusJunior'],
+                        ['realmadrid', 'madrid', 'halamadrid', 'halla_m2adrid', 'cristiano', 'benzema', 'zidane',
+                         'Ramos', 'explore'], ['RealMadrid', 'rmalive', 'HalaMadrid', 'Vinici'],
+                        ['RealMadrid', 'Haaland'], ['RealMadrid', 'SuperCopa', 'HalaMadrid'], ['RealMadrid'],
+                        ['An', 'VIPDeportivo', 'RealMadrid', 'Vinicius', 'Benzema', 'LaLigaSantander'],
+                        ['An', 'VIPDeportivo', 'RealMadrid', 'Vinicius', 'Benzema', 'LaLigaSantander'],
+                        ['TiempoExtraRD', 'LionelMessi', 'Messi', 'JerzyDudek', 'Barcelona', 'RealMadrid',
+                         'FCBarcelona', 'LeoMessi'], ['RealMadrid'], ['RealMadrid'], ['RealMadrid'], ['RealMadrid'],
+                        ['RealMadrid'], ['RealMadrid'],
+                        ['RealMadrid', 'HalaMadridYNadaMas', 'marca', 'tv3', 'Barcelona'],
+                        ['ACMilan', 'Milan', 'FranckKessie', 'bursatransfer', 'LigaItalia', 'SvenBotman', 'RealMadrid',
+                         'Liverpool', 'Tottenham', 'Lille'],
+                        ['HalaMadrid', 'RealMadrid', 'HalaMadridYNadaMas', 'SiguemeYTeSigo'],
+                        ['TiempoExtraRD', 'LionelMessi', 'Messi', 'JerzyDudek', 'Barcelona', 'RealMadrid',
+                         'FCBarcelona', 'LeoMessi'], ['TV3', 'RealMadrid', 'mayorcuetadetontosencatalu'],
+                        ['s', 'deportes', 'futbol', 'RealMadrid'], ['RealMadrid', 'SuperCopa'],
+                        ['Mbappe', 'PSG', 'RealMadrid'], ['RealMadrid', 'Vinic'], ['RealMadrid'],
+                        ['Viniciusjr', 'RealMadrid'], ['RealMadrid', 'Vinicius'],
+                        ['Ajaxbet', 'Barcelona', 'RealMadrid'], ['RealMadrid', 'Barcelona', 'ElClasico', 'LaZabawa'],
+                        ['RealMadrid'],
+                        ['viniciusjr', 'benzema', 'barcellona', 'viniciusjr', 'benzema', 'barcellona', 'RealMadrid',
+                         'ligasantander', 'blancos'], ['HalaMadrid', 'RealMadrid'], ['Lunes', 'RealMadrid', 'futbol'],
+                        ['RealMadrid', 'Vinicius'], ['RealMadrid', 'Yabusele', 'Deck'], ['Barcelona', 'RealMadrid'],
+                        ['RealMadrid', 'Benzema', 'Liga'],
+                        ['PapoComTironi', 'ViniciusJr', 'Neymar', 'Tite', 'Sele', 'RealMadrid', 'PSG'],
+                        ['Ajaxbet', 'Barcelona', 'RealMadrid'],
+                        ['Sevilla', 'Cinco', 'SoyNuevaPrensa', 'RealMadrid', 'Record', 'Deportes', 'F'],
+                        ['n00nex', 'HalaMadrid', 'Madridista', 'losblancos', 'VAMOS', 'realmadrid', 'real', 'madrid',
+                         'RealMadrid', 'CeferinOut', 'UEFA', 'CeferinShame'],
+                        ['Ceballos', 'Ancelotti', 'Supercopa', 'ElClasico', 'RealMadrid'], ['RealMadrid', 'Supercopa'],
+                        ['RealMadrid', 'LF'], ['RealMadrid']]
 
-        result = GSP(transactions).search(0.3)
+        result = GSP(transactions).search(0.04)
 
         print("========= Status =========")
         print("Transactions: {}".format(transactions))
