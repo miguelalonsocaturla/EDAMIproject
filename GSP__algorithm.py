@@ -22,7 +22,7 @@ import multiprocessing as mp
 from collections import Counter
 from itertools import chain
 import numpy as np
-import twitterdata
+from test2 import listtweets
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -45,17 +45,17 @@ class GSP:
 
     def _is_slice_in_list(self, s, l):
         len_s = len(s)  # so we don't recompute length of s on every iteration
-        return any(s == l[i:len_s + i] for i in range(len(l) - len_s + 1))
+        le=any(s == l[i:len_s + i] for i in range(len(l) - len_s + 1))
+        return le
 
     def _calc_frequency(self, results, item, minsup):
         # The number of times the item appears in the transactions
-        frequency = len(
-            [t for t in self.transactions if self._is_slice_in_list(item, t)])
+        frequency = len([t for t in self.transactions if self._is_slice_in_list(item, t)])
         if frequency >= minsup:
             results[item] = frequency
         return results
 
-    def _support(self, items, minsup=0):
+    def _support(self, items, minsup=1.0):
         """ The support count (or simply support) for a sequence is defined as
         the fraction of total data-sequences that "contain" this sequence.
         (Although the word "contains" is not strictly accurate once we
@@ -130,8 +130,8 @@ class GSP:
 class gsptest(TestCase):
     def test_gsp(self):
 
-        transactio = twitterdata.testtwitter.list3
-        result = GSP(transactio).search(0.04)
+        transactio = listtweets()
+        result = GSP(transactio).search(0.1)
         print("========= Status =========")
-        print("Transactions: {}".format(transactio))
+        #print("Transactions: {}".format(transactio))
         print("GSP: {}".format(result))

@@ -30,12 +30,12 @@ class testtwitter(TestCase):
     json_response = search_twitter(query=query, max_results=max_results, tweet_fields=tweet_fields, bearer_token=BEARER_TOKEN)
     # pretty printing
 
-    data = json.loads(json.dumps(json_response))
 
     # pretty printing
     data = json.loads(json.dumps(json_response))
     hashtags = []
     for element in data['data']:
+        print(json.dumps(element))
         hashtags.append(re.findall(r"#(\w+)", json.dumps(element)))
 
     list3 = [x for x in hashtags if x != []]
