@@ -6,7 +6,7 @@ import json
 
 
 def listtweets():
-    df = pd.read_csv('database/covidvaccine.csv', usecols=['text'])
+    df = pd.read_csv('covidvaccine.csv', usecols=['text'])
     df.info(verbose=False, memory_usage="deep")
     list = df.values.tolist()
 
