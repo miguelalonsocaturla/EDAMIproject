@@ -22,7 +22,7 @@ import multiprocessing as mp
 from collections import Counter
 from itertools import chain
 import numpy as np
-from test2 import listtweets
+from test2 import listweets
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -130,8 +130,9 @@ class GSP:
 class gsptest(TestCase):
     def test_gsp(self):
 
-        transactio = listtweets()
-        result = GSP(transactio).search(0.1)
+        transactio = listweets()
+
+        result = GSP(transactio).search(0.5)
         print("========= Status =========")
         #print("Transactions: {}".format(transactio))
         print("GSP: {}".format(result))
