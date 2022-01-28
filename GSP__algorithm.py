@@ -15,7 +15,6 @@ transactions = [
                 ['Bread', 'Milk', 'Diaper', 'Coke']
             ]
 """
-import logging
 from unittest import TestCase
 from itertools import product
 import multiprocessing as mp
@@ -23,8 +22,6 @@ from collections import Counter
 from itertools import chain
 import numpy as np
 from test2 import listweets
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 class GSP:
@@ -76,14 +73,6 @@ class GSP:
 
         return dict(results)
 
-    def _print_status(self, run, candidates):
-        logging.debug("""
-        Run {}
-        There are {} candidates.
-        The candidates have been filtered down to {}.\n"""
-                      .format(run,
-                              len(candidates),
-                              len(self.freq_patterns[run - 1])))
 
     def search(self, minsup=0.5):
         """Run GSP mining algorithm
@@ -105,8 +94,6 @@ class GSP:
         # (k-itemsets/k-sequence = 1)
         k_items = 1
 
-        self._print_status(k_items, candidates)
-
         # repeat until no frequent sequence or no candidate can be found
         while len(self.freq_patterns[k_items - 1]) and (k_items + 1 <= self.max_size):
             k_items += 1
@@ -123,7 +110,6 @@ class GSP:
             # frequent (using support as threshold)
             self.freq_patterns.append(self._support(candidates, minsup))
 
-            self._print_status(k_items, candidates)
         return self.freq_patterns[:-1]
 
 
